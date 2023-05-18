@@ -10,6 +10,15 @@ class Restaurant extends Model
 {
     protected $guarded = ['id'];
 
+
+    protected $fillable =
+        [
+            'name',
+            'description',
+            'address'
+
+        ];
+
     public function menuItems()
     {
         return $this->hasMany(MenuItem::class);

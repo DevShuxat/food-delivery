@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\MenuItemController;
 use App\Http\Controllers\Api\RestaurantController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -21,12 +22,12 @@ use Illuminate\Support\Facades\Route;
 
 
 
-Route::prefix('v1')->group(function () {
+//Route::prefix('v1')->group(function () {
     Route::post('/login', [\App\Http\Controllers\AuthController::class, 'login']);
     Route::post('/logout', [\App\Http\Controllers\AuthController::class, 'logout']);
     Route::post('/register', [\App\Http\Controllers\AuthController::class, 'register']);
 
-//    Route::middleware('auth:api')->group(function () {
+    Route::middleware('auth:api')->group(function () {
         Route::prefix('restaurants')->group(function () {
             Route::get('/', [RestaurantController::class, 'index']);
             Route::get('/{id}', [RestaurantController::class,'show']);
@@ -35,14 +36,14 @@ Route::prefix('v1')->group(function () {
             Route::post('/', [RestaurantController::class,'store']);
         });
 
-//        Route::prefix('menu_items')->group(function () {
-//            Route::get('/', 'MenuItemController@index');
-//            Route::get('/{id}', 'MenuItemController@show');
-//            Route::post('/', 'MenuItemController@store');
-//            Route::put('/{id}', 'MenuItemController@update');
-//            Route::delete('/{id}', 'MenuItemController@destroy');
-//        });
-//
+        Route::prefix('menu_items')->group(function () {
+            Route::get('/', [MenuItemController::class,'index']);
+            Route::get('/{id}', [MenuItemController::class,'show']);
+            Route::post('/', [MenuItemController::class,'store']);
+            Route::put('/', [MenuItemController::class,'update']);
+            Route::delete('/', [MenuItemController::class,'destroy']);
+        });
+
 //        Route::prefix('orders')->group(function () {
 //            Route::get('/', 'OrderController@index');
 //            Route::get('/{id}', 'OrderController@show');
