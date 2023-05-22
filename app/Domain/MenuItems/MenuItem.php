@@ -5,6 +5,9 @@ namespace App\Domain\MenuItems;
 use App\Domain\Restaurants\Entities\Restaurant;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * @method static where(string $string, $id)
+ */
 class MenuItem extends Model
 {
     protected $guarded = ['id'];

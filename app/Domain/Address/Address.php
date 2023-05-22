@@ -5,6 +5,7 @@ namespace App\Domain;
 
 /**
  * @method static where(string $string, $id)
+ * @method toArray()
  */
 class Address
 {

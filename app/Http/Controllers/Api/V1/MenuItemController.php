@@ -2,17 +2,25 @@
 
 namespace App\Http\Controllers\Api\V1;
 
+use App\Domain\MenuItems\MenuItem;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CreateMenuItemRequest;
 use App\Http\Requests\UpdateMenuItemRequest;
 use App\Http\Resources\CreateMenuItemResource;
+use App\Http\Resources\MenuItemCollection;
+use Illuminate\Http\Request;
 
+/**
+ * @method respondWithResourceCollection(MenuItemCollection $param, string $string)
+ */
 class MenuItemController extends Controller
 {
-    public function index($request)
+    public function index(Request $request)
     {
-        $menuItems = CreateMenuItemResource::all();
-        return response($menuItems, 'on');
+
+        $resMenu = $request->restaurant();
+        $menu = MenuItem::where('restaurant_id', $resMenu->id);
+        return $this->respondWithResourceCollection(new MenuItemCollection($menu), 'this is all menu items' );
 
 
     }

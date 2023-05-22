@@ -10,7 +10,7 @@ namespace App\Domain\Restaurants\Services;
  * @method getRestaurant($id)
  * @method updateRestaurant($id, array $all)
  */
-class RestaurantService
+class restaurantService
 {
 
 }

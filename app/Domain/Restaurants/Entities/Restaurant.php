@@ -2,8 +2,8 @@
 
 namespace App\Domain\Restaurants\Entities;
 
-use App\Domain\Address\Address;
-use App\Domain\Restaurant\ValueObjects\Menu\MenuItem;
+use App\Domain\Address;
+use App\Domain\MenuItems\MenuItem;
 use Illuminate\Database\Eloquent\Model;
 
 /**
