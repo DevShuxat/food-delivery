@@ -1,9 +1,8 @@
 <?php
 
-namespace App\Domain\Restaurant\ValueObjects\Menu;
+namespace App\Domain\MenuItems;
 
-use App\Domain\Restaurant\Entities\Restaurant\Restaurant;
-use App\Domain\Restaurant\ValueObjects\Price;
+use App\Domain\Restaurants\Entities\Restaurant;
 use Illuminate\Database\Eloquent\Model;
 
 class MenuItem extends Model

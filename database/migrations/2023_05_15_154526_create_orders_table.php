@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('restaurant_id');
             $table->foreignId('user_id');
-            $table->boolean('status');
+            $table->string('status');
             $table->timestamps();
         });
     }

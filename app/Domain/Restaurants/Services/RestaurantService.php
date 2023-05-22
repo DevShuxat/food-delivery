@@ -4,17 +4,13 @@
 namespace App\Domain\Restaurants\Services;
 
 
-use App\Domain\Restaurant\Entities\Restaurant\Restaurant;
-
-
+/**
+ * @method getRestaurants()
+ * @method createRestaurant(array $all)
+ * @method getRestaurant($id)
+ * @method updateRestaurant($id, array $all)
+ */
 class RestaurantService
 {
-
-    public $Restauarant;
-
-    public function __construct(Restaurant $Restaurant)
-    {
-        $this->Restauarant = $Restaurant;
-    }
 
 }

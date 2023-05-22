@@ -24,7 +24,11 @@ class StoreAddressRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'address_line1' => $this->address_line1,
+            'address_line2' => $this->address_line2,
+            'city' => $this->city,
+            'region' => $this->region,
+            'postal_code' => $this->postal_code,
         ];
     }
 }

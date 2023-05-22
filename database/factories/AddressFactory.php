@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Address>
+ * @method randomElement(string[] $array)
+ * @method country()
  */
 class AddressFactory extends Factory
 {
@@ -17,7 +19,7 @@ class AddressFactory extends Factory
     public function definition()
     {
         return [
-            //
+           //
         ];
     }
 }

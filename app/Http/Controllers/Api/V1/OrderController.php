@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\OrderRequest;
@@ -10,9 +10,7 @@ use App\Services\Order\OrderService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
 
-/**
- * @method respondWithResource(OrderResource $param)
- */
+
 class OrderController extends Controller
 {
     private $orderService;

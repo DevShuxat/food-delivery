@@ -1,11 +1,15 @@
 <?php
 
-namespace App\Domain\Restaurant\Entities\Restaurant;
+namespace App\Domain\Restaurants\Entities;
 
 use App\Domain\Address\Address;
 use App\Domain\Restaurant\ValueObjects\Menu\MenuItem;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * @method static create(array $array)
+ * @method static where(string $string, $id)
+ */
 class Restaurant extends Model
 {
     protected $guarded = ['id'];

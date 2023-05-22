@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CreateMenuItemRequest;
@@ -9,13 +9,12 @@ use App\Http\Resources\CreateMenuItemResource;
 
 class MenuItemController extends Controller
 {
-    public function index()
+    public function index($request)
     {
         $menuItems = CreateMenuItemResource::all();
+        return response($menuItems, 'on');
 
-        return response()->json([
-            'menuItems' => $menuItems,
-        ]);
+
     }
 
     public function store(CreateMenuItemRequest $request)
@@ -24,7 +23,7 @@ class MenuItemController extends Controller
 
         $menuItem = CreateMenuItemResource::create($data);
 
-        return respondWithResource(new CreateMenuItemResource($menuItem),'This is all menu items', 201);
+        return respondWithResource(new CreateMenuItemResource($menuItem), 'This is all menu items', 201);
     }
 
     public function show($id)
