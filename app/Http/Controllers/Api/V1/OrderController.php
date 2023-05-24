@@ -34,8 +34,11 @@ class OrderController extends Controller
 
     public function store(OrderRequest $request)
     {
-        $order = $this->orderService->createOrder(Auth::id(), $request->all());
-        return response()->json(new OrderResource($order), 201);
+       $this->validate($request, [
+            'restaurant_id' => 'requred|foreignId',
+            'user_id' => 'requred|foreignId',
+            'status' => 'requred|boolean',
+       ]);
     }
 
     public function update(OrderRequest $request, Order $order)

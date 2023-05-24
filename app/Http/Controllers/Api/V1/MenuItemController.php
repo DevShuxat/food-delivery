@@ -4,39 +4,63 @@ namespace App\Http\Controllers\Api\V1;
 
 use App\Domain\MenuItems\MenuItem;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\CreateMenuItemRequest;
 use App\Http\Requests\UpdateMenuItemRequest;
-use App\Http\Resources\CreateMenuItemResource;
-use App\Http\Resources\MenuItemCollection;
+use App\Http\Resources\MenuItem\CreateMenuItemResource;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
-/**
- * @method respondWithResourceCollection(MenuItemCollection $param, string $string)
- */
+
 class MenuItemController extends Controller
 {
     public function index(Request $request)
     {
 
-        $resMenu = $request->restaurant();
-        $menu = MenuItem::where('restaurant_id', $resMenu->id);
-        return $this->respondWithResourceCollection(new MenuItemCollection($menu), 'this is all menu items' );
+        $menu = MenuItem::all();
+        return response()->json(['menu items is all' => $menu]);
 
 
     }
 
-    public function store(CreateMenuItemRequest $request)
+
+    // Store function
+    public function store(Request $request)
     {
-        $data = $request->validated();
+        // Validate the incoming request
+        $this->validate($request, [
+            'name' => 'required',
+            'description' => 'requires|string',
+            'price' => 'required|string',
+            'restaurant_id' => 'required|integer',
+            // Add more validation rules if needed
+        ]);
+        $data =[
+            'name' => $request->input('name'),
+            'description' => $request->input('description'),
+            'price' => $request->input('price'),
+            'restaurant_id' => $request->input('restaurant_id'),
+        ];
+        // Create a new resource
+        $resource = MenuItem::create($data);
 
-        $menuItem = CreateMenuItemResource::create($data);
-
-        return respondWithResource(new CreateMenuItemResource($menuItem), 'This is all menu items', 201);
+        // Return a response with the created resource
+        return $this->respondWithResource($resource, 'Resource created successfully.', Response::HTTP_CREATED);
     }
+
+    // Protected function to generate a response with the resource
+    protected function respondWithResource($resource, $message, $status)
+    {
+        $response = [
+            'message' => $message,
+            'data' => $resource,
+        ];
+
+        return response()->json($response, $status);
+    }
+
 
     public function show($id)
     {
-        $menuItem = CreateMenuItemResource::find($id);
+        $menuItem = MenuItem::find($id);
 
         if (!$menuItem) {
             return response()->json([

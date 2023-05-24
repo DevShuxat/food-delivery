@@ -11,6 +11,9 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 
+/**
+ * @method respondWithResources(AddressResource $param)
+ */
 class AddressController extends Controller
 {
     private AddressService $addressService;

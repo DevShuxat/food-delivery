@@ -1,21 +1,22 @@
 <?php
 
-namespace App\Http\Resources;
+namespace App\Http\Resources\MenuItem;
 
+use FontLib\Table\Type\name;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-/**
- * @method static all()
- * @method static create(array $array)
- * @method static find($id)
- */
+
 class CreateMenuItemResource extends JsonResource
 {
+
+    public static function create(array $array)
+    {
+
+    }
 
     public function toArray($request)
     {
         return [
-            'id' => $this->id,
             'name' => $this->name,
             'description' => $this->description,
             'price' => $this->price,

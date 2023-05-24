@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * @method static create(array $array)
  * @method static where(string $string, $id)
+ * @method static find(int $id)
  */
 class Restaurant extends Model
 {

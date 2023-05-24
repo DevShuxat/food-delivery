@@ -4,21 +4,26 @@ namespace App\Http\Controllers\Api\V1;
 
 use App\Domain\Restaurants\Entities\Restaurant;
 use App\Http\Controllers\Controller;
-use App\Http\Resources\RestaurantResource;
+use App\Http\Requests\StoreRestaurantRequest;
+use App\Http\Resources\Restaurant\RestaurantResource;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 
-/**
- * @method respondWithResource(RestaurantResource $param, string $string)
- */
+
 class RestaurantController extends Controller
 {
-    public $restaurantService;
+//    public $restaurantService;
+
+    public function __construct(StoreRestaurantRequest $storeRestaurantRequest)
+    {
+        $this->storeRestaurantRequest = $storeRestaurantRequest;
+    }
+
 
     public function index(): JsonResponse
     {
-        $restaurants = $this->restaurantService->getAllRestaurants();
+        $restaurants = Restaurant::all();
 
         return response()->json([
             'restaurants' => RestaurantResource::collection($restaurants),
@@ -27,7 +32,7 @@ class RestaurantController extends Controller
 
     public function show(int $id): JsonResponse
     {
-        $restaurant = $this->restaurantService->getRestaurantById($id);
+        $restaurant = Restaurant::find($id);
 
         if (!$restaurant) {
             return response()->json(['message' => 'Restaurant not found'], 404);
@@ -36,49 +41,53 @@ class RestaurantController extends Controller
         return response()->json(['restaurant' => new RestaurantResource($restaurant)]);
     }
 
-    public function store(Request $request): JsonResponse
+    public function store(StoreRestaurantRequest $storeRestaurantRequest)
     {
-//        $validatedData = $request->validate([
+//        $this->validate($request, [
 //            'name' => 'required|string',
-//            'description' => 'required|text',
+//            'description' => 'required|string|max:255',
 //            'address' => 'required|string',
+//
 //        ]);
 //
-//        $restaurant = new Restaurant(
-//            $validatedData['name'],
-//            $validatedData['description'],
-//            $validatedData['address']
-//        $this->restaurantService->createRestaurant($restaurant);
-//        return response()->json(['message' => 'Restaurant created successfully', 'restaurant' => new RestaurantResource($restaurant)], 201);
-//        );
-
-        $data = $request->validated();
-
-
+//        $restaurant = [
+//            'name' => $request->input('name'),
+//            'description' => $request->input('description'),
+//            'address' => $request->input('address')
+//        ];
+//        $resource = Restaurant::create($restaurant);
+//    }
+        $data = $storeRestaurantRequest->validated();
+//        return $storeRestaurantRequest;
+//
+//
         $newRestaurant = Restaurant::create($data);
-
-        $newRestaurant->uploadSingleDocument($request);
-
-        return $this->respondWithResource(new RestaurantResource($newRestaurant), 'Restaurant successfully created!');
+//
+        return response()->json(['Restaurant created successfully.' => new RestaurantResource($newRestaurant)]);
     }
+//        $newRestaurant->uploadSingleDocument($request);
+//
+//        return $this->respondWithResource(new RestaurantResource($newRestaurant), 'Restaurant successfully created!');
 
-    public function update(Request $request, int $id): JsonResponse
+
+    public function update(Request $request, int $id)
     {
         $validatedData = $request->validate([
             'name' => 'required|string',
-            'description' => 'required|text',
+            'description' => 'required|string|max:255',
             'address' => 'required|string',
         ]);
 
-        $restaurant = $this->restaurantService->getRestaurantById($id);
+        $restaurant = Restaurant::find($id);
 
         if (!$restaurant) {
             return response()->json(['message' => 'Restaurant not found'], 404);
         }
+//        return $validatedData;
 
-        $restaurant->setName($validatedData['name']);
-        $restaurant->setDescription($validatedData['description']);
-        $restaurant->setAddress($validatedData['address']);
+        $restaurant->responce($validatedData['name']);
+        $restaurant->responce($validatedData['description']);
+        $restaurant->responce($validatedData['address']);
 
         $this->restaurantService->updateRestaurant($restaurant);
 
@@ -87,14 +96,13 @@ class RestaurantController extends Controller
 
     public function destroy(int $id): JsonResponse
     {
-        $restaurant = $this->restaurantService->getRestaurantById($id);
+        $restaurant = Restaurant::find($id);
 
         if (!$restaurant) {
             return response()->json(['message' => 'Restaurant not found'], 404);
         }
 
-        $this->restaurantService->deleteRestaurant($restaurant);
-
+        Restaurant::destroy($id);
         return response()->json(['message' => 'Restaurant deleted successfully']);
     }
 }
